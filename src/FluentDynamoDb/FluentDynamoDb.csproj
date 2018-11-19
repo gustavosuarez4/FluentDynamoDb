@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>FluentDynamoDb.DynamoDBv2</PackageId>
+    <Authors>FluentDynamoDb.DynamoDBv2</Authors>
+    <Version>1.0.4</Version>
+    <Company>FluentDynamoDb.DynamoDBv2</Company>
+    <Product>FluentDynamoDb.DynamoDBv2</Product>
+    <Copyright>Copyright 2018</Copyright>
+    <Description>FluentDynamoDb.DynamoDBv2</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\lib\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
