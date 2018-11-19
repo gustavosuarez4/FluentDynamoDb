@@ -4,6 +4,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Amazon.DynamoDBv2.DataModel;
 using FluentDynamoDb.Mappers;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("FluentDynamoDb.Tests")]
 
 namespace FluentDynamoDb
 {

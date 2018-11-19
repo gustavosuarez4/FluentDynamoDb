@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using FluentDynamoDb.Configuration;
 using FluentDynamoDb.Converters;
 using FluentDynamoDb.Mappers;
@@ -84,6 +85,11 @@ namespace FluentDynamoDb.Example
     {
         public static void Main(string[] args)
         {
+            new Program().Foo().GetAwaiter().GetResult();
+        }
+
+        public async Task Foo()
+        {
             /*
              * You must set your DynamoDb configuration @ app.config
              * 
@@ -116,14 +122,14 @@ namespace FluentDynamoDb.Example
             user.AddAccount(new Account { Balance = 9999.99m, Password = "password", Username = "lfreneda" });
             user.AddAccount(new Account { Balance = 123.45m, Password = "password", Username = "lfrened4" });
 
-            userStore.PutItem(user);
+            await userStore.PutItem(user);
 
-            var savedUser = userStore.GetItem(new Guid("1a9f6ee7-d0bf-47ab-a6f6-6225ebe713d8"));
+            var savedUser = await userStore.GetItem(new Guid("1a9f6ee7-d0bf-47ab-a6f6-6225ebe713d8"));
 
             savedUser.Name = "Luiz Freneda Perez Junior";
-            userStore.UpdateItem(savedUser);
+            await userStore.UpdateItem(savedUser);
 
-            userStore.DeleteItem(new Guid("1a9f6ee7-d0bf-47ab-a6f6-6225ebe713d8"));
+            await userStore.DeleteItem(new Guid("1a9f6ee7-d0bf-47ab-a6f6-6225ebe713d8"));
 
             Console.Read();
         }

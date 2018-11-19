@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FluentDynamoDb
 {
     public interface IDynamoDbStore<TEntity, in TKey> : IDisposable
         where TEntity : class, new()
     {
-        TEntity GetItem(TKey id);
-        void PutItem(TEntity entity);
-        TEntity UpdateItem(TEntity entity);
-        TEntity DeleteItem(TKey id);
+        Task<TEntity> GetItem(TKey id);
+        Task PutItem(TEntity entity);
+        Task<TEntity> UpdateItem(TEntity entity);
+        Task<TEntity> DeleteItem(TKey id);
     }
 }

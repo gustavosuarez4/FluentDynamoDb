@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using FluentDynamoDb.Mappers;
+using System.Threading.Tasks;
 
 namespace FluentDynamoDb
 {
@@ -20,17 +21,17 @@ namespace FluentDynamoDb
             _mapper = new DynamoDbMapper<TEntity>(rootConfiguration.DynamoDbEntityConfiguration);
         }
 
-        public TEntity GetItem(TKey id)
+        public async Task<TEntity> GetItem(TKey id)
         {
             dynamic idValue = id;
-            var document = _entityTable.GetItem(idValue);
+            var document = await _entityTable.GetItemAsync(idValue);
             return _mapper.ToEntity(document);
         }
 
-        public TEntity DeleteItem(TKey id)
+        public async Task<TEntity> DeleteItem(TKey id)
         {
             dynamic idValue = id;
-            var deletedDocument = _entityTable.DeleteItem(idValue, new DeleteItemOperationConfig
+            var deletedDocument = await _entityTable.DeleteItemAsync(idValue, new DeleteItemOperationConfig
             {
                 ReturnValues = ReturnValues.AllOldAttributes
             });
@@ -38,11 +39,11 @@ namespace FluentDynamoDb
             return _mapper.ToEntity(deletedDocument);
         }
 
-        public TEntity UpdateItem(TEntity entity)
+        public async Task<TEntity> UpdateItem(TEntity entity)
         {
             var document = _mapper.ToDocument(entity);
 
-            var updatedDocument = _entityTable.UpdateItem(document, new UpdateItemOperationConfig
+            var updatedDocument = await _entityTable.UpdateItemAsync(document, new UpdateItemOperationConfig
             {
                 ReturnValues = ReturnValues.AllNewAttributes
             });
@@ -50,9 +51,9 @@ namespace FluentDynamoDb
             return _mapper.ToEntity(updatedDocument);
         }
 
-        public void PutItem(TEntity entity)
+        public async Task PutItem(TEntity entity)
         {
-            _entityTable.PutItem(_mapper.ToDocument(entity));
+            await _entityTable.PutItemAsync(_mapper.ToDocument(entity));
         }
 
         public void Dispose()
